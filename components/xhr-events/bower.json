@@ -1,0 +1,24 @@
+{
+  "name": "xhr-events",
+  "version": "0.0.1",
+  "description": "An interceptor for Polymer's iron-request element that generates events on document object.",
+  "keywords": [
+    "xhr",
+    "ajax",
+    "events"
+  ],
+  "main": "xhr-events.js",
+  "homepage": "https://github.com/gazal-k/xhr-events",
+  "ignore": [
+    "/.*",
+    "/test/",
+    "/gulpfile.js",
+    "/package.json"
+  ],
+  "dependencies": {
+    "iron-ajax": "PolymerElements/iron-ajax#^1.0.0"
+  },
+  "devDependencies": {
+    "web-component-tester": "*"
+  }
+}

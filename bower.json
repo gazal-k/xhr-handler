@@ -1,0 +1,30 @@
+{
+  "name": "xhr-handler",
+  "version": "0.0.1",
+  "description": "A web component that handles xhr events and shows a loadMask and shows toasts for xhr errors.",
+  "keywords": [
+    "web-component",
+    "web-components",
+    "polymer",
+    "xhr",
+    "ajax",
+    "events"
+  ],
+  "main": "xhr-handler.html",
+  "homepage": "https://github.com/gazal-k/xhr-handler",
+  "ignore": [
+    "/.*",
+    "/test/",
+    "/gulpfile.js",
+    "/package.json"
+  ],
+  "dependencies": {
+    "xhr-events": "gazal-k/xhr-events#~0.0.1",
+    "paper-spinner": "PolymerElements/paper-spinner#~1.1.1",
+    "paper-toast": "PolymerElements/paper-toast#~1.2.1"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "web-component-tester": "*"
+  }
+}

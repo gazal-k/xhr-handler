@@ -1,0 +1,121 @@
+<script src="../xhr-events/xhr-events.js"></script>
+<link rel="import" href="../paper-spinner/paper-spinner.html">
+<link rel="import" href="../paper-toast/paper-toast.html">
+<!--
+A web component that handles xhr events.
+
+1. handles displaying and hiding of load mask
+2. common error handling - you may set xhrErrors property for l10n/i18n.
+
+Example:
+
+    <xhr-handler></xhr-handler>
+
+-->
+<dom-module id='xhr-handler'>
+  <style>
+  #loadMask {
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background: rgba(255, 255, 255, 0.3);
+   display: none;
+  }
+
+  #loadMask paper-spinner {
+   top: 50%;
+   left: 50%;
+   margin-left: -14px;
+  }
+  </style>
+  <template>
+    <paper-toast id="toast"></paper-toast>
+    <div id="loadMask">
+      <paper-spinner active></paper-spinner>
+    </div>
+  </template>
+  <script type="text/javascript">
+    Polymer({
+      is: 'xhr-handler',
+
+      properties: {
+
+        /**
+         * errors corresponding to HTTP failure status codes such as 4xx and 5xx.
+         */
+        xhrErrors: {
+          type: Object,
+          value: {
+            401: 'Session timed out. Please login.',
+            403: 'Your are unauthorized to perform this action',
+            404: 'The application seems to be down at the moment. Please contact the administrator for more information.',
+            500: 'An Internal Server Error has occured. Please contact the administrator for more information.',
+            503: 'Temporarily unable to handle your request due to overloading or maintenance of the server. Please try again after sometime.'
+          }
+        },
+
+        /**
+         * Specify URI patterns (RegExp) for which error handling should be skipped.
+         * e.g: { 401: [ /^\/skipUri$/ ] } skips showing any error message for 401 errors on URIs matching ^/skipUri$.
+         */
+        skipPatterns: {
+          type: Object,
+          value: {}
+        }
+      },
+
+      attached: function() {
+        var proto = Object.getPrototypeOf(this);
+        if (!proto.handled) {
+          proto.handled = true;
+          this.async(this._handle);
+        }
+      },
+
+      /**
+       * The event handlers are bound here.
+       */
+      _handle: function() {
+        var me = this;
+
+        document.addEventListener('xhr-request', me._showMask.bind(me));
+        document.addEventListener('xhr-response', me._hideMask.bind(me));
+        document.addEventListener('xhr-error', me._hideMask.bind(me));
+
+        document.addEventListener('xhr-error', function(event) {
+          if (event.detail && event.detail.request && event.detail.request.status) {
+
+            var patterns = me.skipPatterns[event.detail.request.status];
+            if (patterns && patterns.length > 0) {
+              var i;
+              for (i = 0; i < patterns.length; i += 1) {
+                if (patterns[i].test(event.detail.request.url)) { return; }
+              }
+            }
+
+            if (me.xhrErrors[event.detail.request.status]) {
+              me.$.toast.text = me.xhrErrors[event.detail.request.status];
+              me.$.toast.show();
+            }
+          }
+        });
+      },
+
+      /**
+       * Shows the loadMask.
+       */
+      _showMask: function() {
+        this.$.loadMask.style.display = 'block';
+      },
+
+      /**
+       * Hides the loadMask.
+       */
+      _hideMask: function() {
+        this.$.loadMask.style.display = 'none';
+      }
+    });
+  </script>
+</dom-module>

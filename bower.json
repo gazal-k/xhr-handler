@@ -1,6 +1,6 @@
 {
   "name": "xhr-handler",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A web component that handles xhr events and shows a loadMask and shows toasts for xhr errors.",
   "keywords": [
     "web-component",
@@ -19,7 +19,7 @@
     "/package.json"
   ],
   "dependencies": {
-    "xhr-events": "gazal-k/xhr-events#~0.0.1",
+    "xhr-events": "gazal-k/xhr-events#master",
     "paper-spinner": "PolymerElements/paper-spinner#~1.1.1",
     "paper-toast": "PolymerElements/paper-toast#~1.2.1",
     "custom-event-polyfill": "krambuhl/custom-event-polyfill#~0.2.1"
